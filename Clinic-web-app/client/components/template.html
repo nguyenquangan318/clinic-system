@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Plus Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="../../assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="../../assets/vendors/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="../../assets/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="../../assets/vendors/jquery-bar-rating/css-stars.css">
+    <link rel="stylesheet" href="../assets/vendors/font-awesome/css/font-awesome.min.css">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="../../assets/css/demo_3/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="../../assets/images/favicon.png" />
+</head>
+
+<body>
+    <div className="container-scroller">
+        <!-- partial:partials/_horizontal-navbar.html -->
+        <!-- <div className="horizontal-menu">
+            <nav className="navbar top-navbar col-lg-12 col-12 p-0">
+                <div className="container">
+                    <div className="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+                        <a className="navbar-brand brand-logo" href="index.html">
+                            <img src="../../assets/images/logo.svg" alt="logo" />
+                            <span className="font-12 d-block font-weight-light">Responsive Dashboard </span>
+                        </a>
+                        <a className="navbar-brand brand-logo-mini" href="index.html"><img
+                                src="../../assets/images/logo-mini.svg" alt="logo" /></a>
+                    </div>
+                    <div className="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+                        <ul className="navbar-nav mr-lg-2">
+                            <li className="nav-item nav-search d-none d-lg-block">
+                                <div className="input-group">
+                                    <div className="input-group-prepend hover-cursor" id="navbar-search-icon">
+                                        <span className="input-group-text" id="search">
+                                            <i className="mdi mdi-magnify"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" className="form-control" id="navbar-search-input"
+                                        placeholder="Search" aria-label="search" aria-describedby="search">
+                                </div>
+                            </li>
+                        </ul>
+                        <ul className="navbar-nav navbar-nav-right">
+                            <li className="nav-item nav-profile dropdown">
+                                <a className="nav-link" id="profileDropdown" href="#" data-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <div className="nav-profile-img">
+                                        <img src="../../assets/images/dashboard/hospital/Doc_3.jpg" alt="image">
+                                    </div>
+                                    <div className="nav-profile-text">
+                                        <p className="text-black font-weight-semibold m-0">Dr. Nwoye</p>
+                                        <span className="font-13 online-color">online <i
+                                                className="mdi mdi-chevron-down"></i></span>
+                                    </div>
+                                </a>
+                                <div className="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
+                                    <a className="dropdown-item" href="#">
+                                        <i className="mdi mdi-cached mr-2 text-success"></i> Activity Log </a>
+                                    <div className="dropdown-divider"></div>
+                                    <a className="dropdown-item" href="#">
+                                        <i className="mdi mdi-logout mr-2 text-primary"></i> Signout </a>
+                                </div>
+                            </li>
+                        </ul>
+                        <button className="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+                            data-toggle="horizontal-menu-toggle">
+                            <span className="mdi mdi-menu"></span>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+            <nav className="bottom-navbar">
+                <div className="container">
+                    <ul className="nav page-navigation">
+                        <li className="nav-item">
+                            <a className="nav-link" href="index.html">
+                                <i className="mdi mdi-compass-outline menu-icon"></i>
+                                <span className="menu-title">Dashboard</span>
+                            </a>
+                        </li>
+                        <li className="nav-item">
+                            <a href="#" className="nav-link">
+                                <i className="mdi mdi-stethoscope menu-icon"></i>
+                                <span className="menu-title">Doctor</span>
+                                <i className="menu-arrow"></i></a>
+                            <div className="submenu">
+                                <ul className="submenu-item">
+                                    <li className="nav-item"><a className="nav-link" href="#">Add Doctor</a></li>
+                                    <li className="nav-item"><a className="nav-link" href="#">Doctor List</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li className="nav-item">
+                            <a href="#" className="nav-link">
+                                <i className="mdi mdi-monitor-dashboard menu-icon"></i>
+                                <span className="menu-title">Patient</span>
+                                <i className="menu-arrow"></i></a>
+                            <div className="submenu">
+                                <ul className="submenu-item">
+                                    <li className="nav-item"><a className="nav-link" href="#">Add Patient</a></li>
+                                    <li className="nav-item"><a className="nav-link" href="#">Patient List</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li className="nav-item">
+                            <a href="#" className="nav-link">
+                                <i className="mdi mdi-clipboard-text menu-icon"></i>
+                                <span className="menu-title">Department</span>
+                                <i className="menu-arrow"></i></a>
+                            <div className="submenu">
+                                <ul className="submenu-item">
+                                    <li className="nav-item"><a className="nav-link" href="#">gynaecology</a></li>
+                                    <li className="nav-item"><a className="nav-link" href="#">Cardiology</a></li>
+                                    <li className="nav-item"><a className="nav-link" href="#">Orthopedic</a></li>
+                                    <li className="nav-item"><a className="nav-link" href="#">Pediatric</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="#">
+                                <i className="mdi mdi-chart-bar menu-icon"></i>
+                                <span className="menu-title">Schedule</span>
+                            </a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="#">
+                                <i className="mdi mdi-content-copy menu-icon"></i>
+                                <span className="menu-title">Appointment</span>
+                            </a>
+                        </li>
+                        <li className="nav-item">
+                            <a href="#" className="nav-link">
+                                <i className="mdi mdi-webpack menu-icon"></i>
+                                <span className="menu-title">Report</span>
+                                <i className="menu-arrow"></i></a>
+                            <div className="submenu">
+                                <ul className="submenu-item">
+                                    <li className="nav-item"><a className="nav-link" href="#">Patient wise Report</a></li>
+                                    <li className="nav-item"><a className="nav-link" href="#">Doctor wise Report</a></li>
+                                    <li className="nav-item"><a className="nav-link" href="#">Total Report</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li className="nav-item">
+                            <div className=" nav-link d-flex">
+                                <button className="btn btn-sm bg-danger text-white">Online Booking</button>
+                                <div className="nav-item dropdown">
+                                    <a className="nav-link count-indicator dropdown-toggle text-white font-weight-semibold"
+                                        id="notificationDropdown" href="#" data-toggle="dropdown"> English </a>
+                                    <div className="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+                                        aria-labelledby="notificationDropdown">
+                                        <a className="dropdown-item" href="#">
+                                            <i className="flag-icon flag-icon-bl mr-3"></i> French </a>
+                                        <div className="dropdown-divider"></div>
+                                        <a className="dropdown-item" href="#">
+                                            <i className="flag-icon flag-icon-cn mr-3"></i> Chinese </a>
+                                        <div className="dropdown-divider"></div>
+                                        <a className="dropdown-item" href="#">
+                                            <i className="flag-icon flag-icon-de mr-3"></i> German </a>
+                                        <div className="dropdown-divider"></div>
+                                        <a className="dropdown-item" href="#">
+                                            <i className="flag-icon flag-icon-ru mr-3"></i>Russian </a>
+                                    </div>
+                                </div>
+                                <a className="text-white" href="index.html"><i className="mdi mdi-home-circle"></i></a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div> -->
+        <!-- partial -->
+        <div className="container-fluid page-body-wrapper">
+            <div className="main-panel">
+                <div className="content-wrapper pb-0">
+                    <div className="page-header flex-wrap">
+                        <div className="header-left d-flex">
+                            <h5 className="m-0 pr-3">Dashboard</h5>
+                            <p className="m-0">Here are your important tasks, updates and alerts.</p>
+                        </div>
+                        <div className="header-right d-flex flex-wrap mt-2 mt-sm-0 align-items-center">
+                            <h5 className="font-weight-normal">20 Mar 2020, Friday</h5>
+                            <form className="search-form d-none d-md-block mb-2 ml-2" action="#">
+                                <i className="mdi mdi-magnify"></i>
+                                <input type="search" className="form-control" placeholder="Search Here" title="Search here">
+                            </form>
+                        </div>
+                    </div>
+
+                    <div className="row">
+                        <div className="col-xl-8 stretch-card grid-margin">
+                            <div className="title-banner">
+                                <div className="d-lg-flex justify-content-between">
+                                    <div className="mr-4">
+                                        <h3>How are feeling today ?</h3>
+                                        <p className="m-0">Get unlimited doctor consultations and much more with plusadmin
+                                        </p>
+                                    </div>
+                                    <img src="https://www.bootstrapdash.com/demo/plus-staging/template/assets/images/dashboard/hospital/banner-thumb.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-xl-4 stretch-card grid-margin">
+                            <div className="card">
+                                <div className="time-banner">
+                                    <div className="d-flex justify-content-between align-items-center">
+                                        <div className="text-center border-right pr-3">
+                                            <i className="mdi mdi-clock-outline"></i>
+                                            <h6 className="m-0 font-weight-normal">Open Hours</h6>
+                                        </div>
+                                        <div className="pl-3">
+                                            <p className="m-0">Monday-Saturday: 10.00 - 24.00</p>
+                                            <p className="m-0">Sunday: 12.00 - 18.00</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="row">
+                            <div className="col-xl-2 col-sm-4 stretch-card grid-margin">
+                                <div className="card">
+                                    <div className="card-body">
+                                        <div className="text-center hospital-features">
+                                            <div className="badge btn-facebook">3 New</div>
+                                            <i className="mdi mdi-stethoscope icon-md text-danger"></i>
+                                            <h5 className="font-weight-normal">Doctors</h5>
+                                            <h5>3,973</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <div className="col-xl-2 col-sm-4 stretch-card grid-margin">
+                            <div className="card">
+                                <div className="card-body">
+                                    <div className="text-center hospital-features">
+                                        <i className="mdi mdi-ambulance icon-md text-danger"></i>
+                                        <h5 className="font-weight-normal">Patients</h5>
+                                        <h5>4353</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-xl-2 col-sm-4 stretch-card grid-margin">
+                            <div className="card">
+                                <div className="card-body">
+                                    <div className="text-center hospital-features">
+                                        <i className="mdi mdi-human-child icon-md text-danger"></i>
+                                        <h5 className="font-weight-normal">Nurses</h5>
+                                        <h5>2354</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-xl-2 col-sm-4 stretch-card grid-margin">
+                            <div className="card">
+                                <div className="card-body">
+                                    <div className="text-center hospital-features">
+                                        <i className="mdi mdi-medical-bag icon-md text-danger"></i>
+                                        <h5 className="font-weight-normal">Pharmacist</h5>
+                                        <h5>12</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-xl-2 col-sm-4 stretch-card grid-margin">
+                            <div className="card">
+                                <div className="card-body">
+                                    <div className="text-center hospital-features">
+                                        <i className="mdi mdi-calendar-clock icon-md text-danger"></i>
+                                        <h5 className="font-weight-normal">New events</h5>
+                                        <h5>29</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-xl-2 col-sm-4 stretch-card grid-margin">
+                            <div className="card">
+                                <div className="card-body">
+                                    <div className="text-center hospital-features">
+                                        <i className="mdi mdi-file-document-box icon-md text-danger"></i>
+                                        <h5 className="font-weight-normal">Reports</h5>
+                                        <h5>46</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-xl-3 col-sm-4 stretch-card grid-margin">
+                            <div className="card">
+                                <div className="card-body">
+                                    <div className="card-title">Doctors list</div>
+                                    <div className="doctor-list d-flex align-items-center">
+                                        <img src="../../assets/images/dashboard/hospital/Doc_11.jpg" alt="">
+                                        <div>
+                                            <h6 className="mb-0">Dr.Freddy</h6>
+                                            <p className="text-small m-0">gynaecology</p>
+                                        </div>
+                                    </div>
+                                    <div className="doctor-list d-flex align-items-center">
+                                        <img src="../../assets/images/dashboard/hospital/Doc_3.jpg" alt="">
+                                        <div>
+                                            <h6 className="mb-0">Dr.Kita Chihoko</h6>
+                                            <p className="text-small m-0">Cardiology</p>
+                                        </div>
+                                    </div>
+                                    <div className="doctor-list d-flex align-items-center">
+                                        <img src="../../assets/images/dashboard/hospital/Doc_1.jpg" alt="">
+                                        <div>
+                                            <h6 className="mb-0">Dr.Nwoye</h6>
+                                            <p className="text-small m-0">Cardiology</p>
+                                        </div>
+                                    </div>
+                                    <div className="doctor-list d-flex align-items-center">
+                                        <img src="../../assets/images/dashboard/hospital/Doc_6.jpg" alt="">
+                                        <div>
+                                            <h6 className="mb-0">Dr.Richard</h6>
+                                            <p className="text-small m-0">Orthopedic</p>
+                                        </div>
+                                    </div>
+                                    <div className="doctor-list d-flex align-items-center border-0">
+                                        <img src="../../assets/images/dashboard/hospital/Doc_9.jpg" alt="">
+                                        <div>
+                                            <h6 className="mb-0">Dr.Herman Beck</h6>
+                                            <p className="text-small m-0">Pediatric</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-xl-9  col-sm-8 stretch-card grid-margin">
+                            <div className="card">
+                                <div className="card-body">
+                                    <div className="d-lg-flex justify-content-between">
+                                        <h4 className="card-title">Recent Appointments </h4>
+                                        <div className="dropdown">
+                                            <button className="btn btn-light btn-sm mb-2 text-muted " type="button"
+                                                id="dropdownMenuIconButton1" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                                <i className="mdi mdi-settings"></i>
+                                            </button>
+                                            <div className="dropdown-menu dropdown-menu-right"
+                                                aria-labelledby="dropdownMenuIconButton1">
+                                                <a className="dropdown-item bg-light ary p-2 mb-1" href="#"
+                                                    className="text-muted"><i className="mdi mdi-file-excel"></i> Excel</a>
+                                                <a className="dropdown-item  bg-light p-2 mb-1" href="#"><i
+                                                        className="mdi mdi-file-pdf"></i> PDF</a>
+                                                <a className="dropdown-item  bg-light p-2 mb-1" href="#"><i
+                                                        className="mdi mdi-file-document"></i> Doc</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="table-responsive custom-datatable">
+                                        <table id="order-listing" className="table table-striped apointment-table">
+                                            <thead>
+                                                <tr>
+                                                    <th> Patient </th>
+                                                    <th> Doctor </th>
+                                                    <th> Date </th>
+                                                    <th> Timing </th>
+                                                    <th> Contact </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Nik Jordan </td>
+                                                    <td>
+                                                        <img src="../../assets/images/dashboard/hospital/Doc_11.jpg"
+                                                            className="mr-2" alt="image"> Alfie Wood
+                                                    </td>
+                                                    <td>
+                                                        12 Sep 2020
+                                                    </td>
+                                                    <td> 10:02PM </td>
+                                                    <td> 087-288-7626 </td>
+                                                </tr>
+                                                <tr>
+                                                    <td> Lily Wozniak </td>
+                                                    <td>
+                                                        <img src="../../assets/images/dashboard/hospital/Doc_3.jpg"
+                                                            className="mr-2" alt="image"> Dr.Kita Chihoko
+                                                    </td>
+                                                    <td>
+                                                        14 Mar 2020
+                                                    </td>
+                                                    <td> 05:11PM </td>
+                                                    <td> 958-984-6484 </td>
+                                                </tr>
+                                                <tr>
+                                                    <td> Samuel Path </td>
+                                                    <td>
+                                                        <img src="../../assets/images/dashboard/hospital/Doc_1.jpg"
+                                                            className="mr-2" alt="image"> Dr.Nwoye
+                                                    </td>
+                                                    <td>
+                                                        26 Feb 2020
+                                                    </td>
+                                                    <td> 08:05PM </td>
+                                                    <td> 782-097-9355 </td>
+                                                </tr>
+                                                <tr>
+                                                    <td> Mia Mai</td>
+                                                    <td>
+                                                        <img src="../../assets/images/dashboard/hospital/Doc_9.jpg"
+                                                            className="mr-2" alt="image"> Dr.Herman Beck
+                                                    </td>
+                                                    <td>
+                                                        22 Apr 2020
+                                                    </td>
+                                                    <td> 08:54PM </td>
+                                                    <td> 892-335-8026 </td>
+                                                </tr>
+                                                <tr>
+                                                    <td> Herman Beck</td>
+                                                    <td>
+                                                        <img src="../../assets/images/dashboard/hospital/Doc_12.jpg"
+                                                            className="mr-2" alt="image"> Dr.Herman Beck
+                                                    </td>
+                                                    <td>
+                                                        26 Oct 2020
+                                                    </td>
+                                                    <td> 08:18PM </td>
+                                                    <td> 027-758-9324 </td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- first row starts here -->
+                    <div className="row">
+                        <div className="col-xl-8 stretch-card grid-margin">
+                            <div className="card">
+                                <div className="card-body">
+                                    <div className="d-flex justify-content-between flex-wrap">
+                                        <div>
+                                            <div className="card-title mb-0">Patient total</div>
+                                            <p className="mt-3">Here are your important tasks, updates and alerts.</p>
+                                        </div>
+                                        <div>
+                                            <ul className="horizontal-legend">
+                                                <li><span className="bg-success"></span>New Patients</li>
+                                                <li><span className="bg-primary"></span>Old Patients</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div className="flot-chart-wrapper">
+                                        <div id="patientTotal" className="flot-chart">
+                                            <canvas className="flot-base"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-xl-4 stretch-card grid-margin">
+                            <div className="card">
+                                <div className="card-body">
+                                    <div className="card-title">Diseases Report</div>
+                                    <p className="mt-2 mt-sm-0">a specialist will contact you shortly</p>
+                                    <div className="doughnut-wrapper m-auto">
+                                        <canvas id="deseaseReport" height="200"></canvas>
+                                        <div id="deseaseReport-legend3" className="pl-lg-0 rounded-legend w-100">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- chart row ends here -->
+                    <div className="row">
+                        <div className="col-xl-4 col-sm-6 stretch-card grid-margin">
+                            <div className="card">
+                                <div className="card-body">
+                                    <div className="card-title mb-4">Make an Appointment</div>
+                                    <form>
+                                        <select className="form-control form-select-arrow lg">
+                                            <option>Choose Service</option>
+                                            <option>Diabetes</option>
+                                            <option>Cardiology</option>
+                                            <option>Gynaecology</option>
+                                            <option>Pediatric</option>
+                                        </select>
+                                        <select className="form-control form-select-arrow lg">
+                                            <option>Select Doctor</option>
+                                            <option>Dr.Freddy</option>
+                                            <option>Dr.Kita Chihoko</option>
+                                            <option>Dr.Nwoye</option>
+                                            <option>Dr.Richard</option>
+                                            <option>Dr.Herman Beck</option>
+                                        </select>
+                                        <select className="form-control form-select-arrow lg">
+                                            <option>Select Date</option>
+                                            <option>01/01/2020</option>
+                                            <option>31/01/2020</option>
+                                            <option>01/02/20120</option>
+                                            <option>01/03/20120</option>
+                                            <option>11/03/20120</option>
+                                        </select>
+                                        <select className="form-control form-select-arrow lg">
+                                            <option>Desirable time</option>
+                                            <option>10 AM</option>
+                                            <option>10.30 AM</option>
+                                            <option>11 AM</option>
+                                            <option>11.30 AM</option>
+                                            <option>12 PM</option>
+                                        </select>
+                                        <button type="button" className="btn btn-facebook btn-lg">Check now</button>
+                                        <p className="text-muted text-small mt-2 mb-0">Lorem ipsum dolor sit amet,
+                                            consectetur adipiscing</p>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-xl-4 col-sm-6 stretch-card grid-margin">
+                            <div className="card">
+                                <div className="card-body">
+                                    <div className="card-title ">Latest reports</div>
+                                    <div>
+                                        <div
+                                            className="d-flex justify-content-between align-items-center py-3 border-bottom">
+                                            <div className="">
+                                                <h5 className="text-primary mb-0">Death report.pdf</h5>
+                                                <p className="mb-0 text-muted text-small">View Report</p>
+                                            </div>
+                                            <button type="button" className="btn btn-facebook btn-xs">Download</button>
+                                        </div>
+                                        <div
+                                            className="d-flex justify-content-between align-items-center py-3 border-bottom">
+                                            <div className="">
+                                                <h5 className="text-primary mb-0">Birth report.pdf</h5>
+                                                <p className="mb-0 text-muted text-small">View Report</p>
+                                            </div>
+                                            <button type="button" className="btn btn-facebook btn-xs">Download</button>
+                                        </div>
+                                        <div
+                                            className="d-flex justify-content-between align-items-center py-3 border-bottom">
+                                            <div className="">
+                                                <h5 className="text-primary mb-0">Diabetes</h5>
+                                                <p className="mb-0 text-muted text-small">View Report</p>
+                                            </div>
+                                            <button type="button" className="btn btn-facebook btn-xs">Download</button>
+                                        </div>
+                                        <div
+                                            className="d-flex justify-content-between align-items-center py-3 border-bottom">
+                                            <div className="">
+                                                <h5 className="text-primary mb-0">Typhoid</h5>
+                                                <p className="mb-0 text-muted text-small">View Report</p>
+                                            </div>
+                                            <button type="button" className="btn btn-facebook btn-xs">Download</button>
+                                        </div>
+                                        <div className="d-flex justify-content-between align-items-center py-3">
+                                            <div className="">
+                                                <h5 className="text-primary mb-0">X-ray.pdf</h5>
+                                                <p className="mb-0 text-muted text-small">View Report</p>
+                                            </div>
+                                            <button type="button" className="btn btn-facebook btn-xs">Download</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-xl-4 col-sm-12 stretch-card grid-margin">
+                            <div className="card chat-with-doctor">
+                                <div className="card-body">
+                                    <div className="p-2">
+                                        <div className="card-title font-weight-normal">Chat with a doctor</div>
+                                        <h2 className="mb-3">Connect with a doctor instantly</h2>
+                                        <h5 className="font-weight-normal w-75 mb-4">Call or chat privately with a
+                                            verified doctor, get a response in 2 minutes!</h5>
+                                        <button type="button" className="btn btn-outline-primary btn-lg mt-4">Chat
+                                            now</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- content-wrapper ends -->
+                <footer className="footer">
+                    <div className="d-sm-flex justify-content-center justify-content-sm-between">
+                        <span className="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2019 <a
+                                href="https://wordpress-923989-3206731.cloudwaysapps.com/"
+                                target="_blank">BootstrapDash</a>. All rights reserved.</span>
+                        <span className="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made
+                            with <i className="mdi mdi-heart text-danger"></i></span>
+                    </div>
+                </footer>
+            </div>
+            <!-- main-panel ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <!-- container-scroller -->
+    <script src="../../assets/vendors/js/vendor.bundle.base.js"></script>
+    <!-- Plugin js for this page -->
+    <script src="../../assets/vendors/jquery-bar-rating/jquery.barrating.min.js"></script>
+    <script src="../../assets/vendors/chart.js/Chart.min.js"></script>
+    <script src="../../assets/vendors/flot/jquery.flot.js"></script>
+    <script src="../../assets/vendors/flot/jquery.flot.resize.js"></script>
+    <script src="../../assets/vendors/flot/jquery.flot.categories.js"></script>
+    <script src="../../assets/vendors/flot/jquery.flot.fillbetween.js"></script>
+    <script src="../../assets/vendors/flot/jquery.flot.stack.js"></script>
+    <script src="../../assets/vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="../../assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+    <!-- End plugin js for this page -->
+    <script src="../../assets/js/off-canvas.js"></script>
+    <script src="../../assets/js/hoverable-collapse.js"></script>
+    <script src="../../assets/js/misc.js"></script>
+    <script src="../../assets/js/settings.js"></script>
+    <script src="../../assets/js/todolist.js"></script>
+    <!-- Custom js for this page -->
+    <script src="js/dashboard.js"></script>
+    <!-- End custom js for this page -->
+</body>
+
+</html>

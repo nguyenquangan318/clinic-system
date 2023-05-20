@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: doctor-mongo-stateful
+spec:
+  serviceName: doctor-mongo-srv
+  replicas: 1
+  selector:
+    matchLabels:
+      app: doctor-mongo
+  template:
+    metadata:
+      labels:
+        app: doctor-mongo
+    spec:
+      containers:
+        - name: doctor-mongo
+          image: mongo
+          volumeMounts:
+            - mountPath: "/data/db"
+              name: pvc
+  volumeClaimTemplates:
+    - metadata:
+        name: pvc
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: doctor-mongo-srv
+spec:
+  selector:
+    app: doctor-mongo
+  ports:
+    - name: db
+      protocol: TCP
+      port: 27017
+      targetPort: 27017
