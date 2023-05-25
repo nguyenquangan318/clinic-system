@@ -26,6 +26,47 @@ const BottomTabNavigation = () => {
             }}
         >
             <Tab.Screen
+                name="Chats"
+                component={Chats}
+                options={{
+                    tabBarIcon: ({ focused }) => {
+                        return (
+                            <View
+                                style={{
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                }}
+                            >
+                                {focused ? (
+                                    <>
+                                        <Text
+                                            style={{
+                                                ...FONTS.body3,
+                                                color: COLORS.secondaryBlack,
+                                            }}
+                                        >
+                                            Chats
+                                        </Text>
+                                        <FontAwesome
+                                            name="circle"
+                                            size={8}
+                                            color={COLORS.black}
+                                        />
+                                    </>
+                                ) : (
+                                    <Ionicons
+                                        name="chatbubble-outline"
+                                        size={24}
+                                        color={COLORS.black}
+                                    />
+                                )}
+                            </View>
+                        )
+                    },
+                }}
+            />
+
+            <Tab.Screen
                 name="Contacts"
                 component={Contacts}
                 options={{

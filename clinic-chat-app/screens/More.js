@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import PageContainer from '../components/PageContainer'
 import { COLORS, FONTS } from '../constants'
@@ -10,8 +10,31 @@ import {
     Ionicons,
     Entypo,
 } from '@expo/vector-icons'
+import { doc, getDoc } from 'firebase/firestore'
+import { db } from '../firebase'
+import { AuthContext } from '../context/AuthContext'
 
 const More = () => {
+    const [user, setUser] = useState()
+    const { currentUser } = useContext(AuthContext)
+    useEffect(() => {
+        async function getUserInfo() {
+            const docRef = doc(db, 'users', `${currentUser.uid}`)
+            const docSnap = await getDoc(docRef)
+
+            if (docSnap.exists()) {
+                console.log(docSnap.data())
+                setUser(docSnap.data())
+            } else {
+                // docSnap.data() will be undefined in this case
+                console.log('No such document!')
+            }
+        }
+        getUserInfo()
+
+        return () => {}
+    }, [])
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <PageContainer>
@@ -53,11 +76,10 @@ const More = () => {
                         }}
                     >
                         <Text style={{ ...FONTS.h4, marginVertical: 6 }}>
-                            Almayra Zamzamy
+                            {user?.name}
                         </Text>
                         <Text style={{ ...FONTS.body3, color: COLORS.gray }}>
-                            {' '}
-                            + 62 - 1300 - 0000- 0000
+                            {user?.phone}
                         </Text>
                     </View>
                     <TouchableOpacity

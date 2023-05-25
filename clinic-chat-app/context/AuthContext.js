@@ -1,26 +1,24 @@
-import { createContext, useReducer } from 'react'
+import { createContext, useEffect, useState } from 'react'
+import { auth } from '../firebase'
+import { onAuthStateChanged } from 'firebase/auth'
 
 export const AuthContext = createContext()
 
 export const AuthContextProvider = ({ children }) => {
-    const INITIAL_STATE = {
-        currentUser: null,
-    }
-    const authReducer = (state, action) => {
-        switch (action.type) {
-            case 'LOGIN':
-                return {
-                    currentUser: action.payload,
-                }
+    const [currentUser, setCurrentUser] = useState({})
 
-            default:
-                return state
+    useEffect(() => {
+        const unsub = onAuthStateChanged(auth, (user) => {
+            setCurrentUser(user)
+        })
+
+        return () => {
+            unsub()
         }
-    }
+    }, [])
 
-    const [state, dispatch] = useReducer(authReducer, INITIAL_STATE)
     return (
-        <AuthContext.Provider value={{ currentUser: state, dispatch }}>
+        <AuthContext.Provider value={{currentUser}}>
             {children}
         </AuthContext.Provider>
     )

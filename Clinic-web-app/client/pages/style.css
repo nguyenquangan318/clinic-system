@@ -246,6 +246,8 @@ td {
   align-items: flex-end;
 }
 .home .container .chat .messages .message.owner .messageContent p {
+  width: 500px;
+  word-wrap: break-word;
   background-color: #8da4f1;
   color: white;
   border-radius: 10px 0px 10px 10px;

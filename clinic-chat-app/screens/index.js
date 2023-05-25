@@ -6,6 +6,7 @@ import Contacts from './Contacts'
 import PersonalChat from './PersonalChat'
 import More from './More'
 import Signin from './Signin'
+import Chats from './Chats'
 export {
     Walkthrough,
     Signup,
@@ -15,4 +16,5 @@ export {
     Contacts,
     PersonalChat,
     More,
+    Chats,
 }

@@ -1,43 +1,86 @@
 import { View, Text, TouchableOpacity } from 'react-native'
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback, useContext } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { COLORS, SIZES, FONTS } from '../constants'
 import { StatusBar } from 'expo-status-bar'
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons'
 import { GiftedChat, Send, Bubble } from 'react-native-gifted-chat'
+import { ChatContext } from '../context/ChatContext'
+import { AuthContext } from '../context/AuthContext'
+import { db } from '../firebase'
+import {
+    arrayUnion,
+    doc,
+    serverTimestamp,
+    Timestamp,
+    updateDoc,
+    onSnapshot,
+} from 'firebase/firestore'
+import { v4 as uuid } from 'uuid'
 
 const PersonalChat = ({ navigation }) => {
     const [messages, setMessages] = useState([])
 
-    useEffect(() => {
-        setMessages([
-            {
-                _id: 1,
-                text: 'Hello developer',
-                createdAt: new Date(),
-                user: {
-                    _id: 2,
-                    name: 'phòng khám đa khoa hùng dũng',
-                },
-            },
-            {
-                _id: 2,
-                text: 'Hi developer',
-                createdAt: new Date(),
-                user: {
-                    _id: 1,
-                    name: 'React Native',
-                    avatar: 'https://placeimg.com/140/140/any',
-                },
-            },
-        ])
-    }, [])
+    const { data } = useContext(ChatContext)
+    const { currentUser } = useContext(AuthContext)
 
-    const onSend = useCallback((messages = []) => {
-        setMessages((previousMessages) =>
-            GiftedChat.append(previousMessages, messages)
-        )
-    }, [])
+    useEffect(() => {
+        const unSub = onSnapshot(doc(db, 'chats', data.chatId), (doc) => {
+            doc.exists() && setMessages(doc.data().messages)
+        })
+
+        return () => {
+            unSub()
+        }
+    }, [data.chatId])
+    // console.log(messages)
+    // useEffect(() => {
+    //     console.log(data)
+    //     setMessages([
+    //         {
+    //             _id: 1,
+    //             text: 'Hello developer',
+    //             createdAt: new Date(),
+    //             user: {
+    //                 _id: 2,
+    //                 name: 'React Native',
+    //                 avatar: 'https://placeimg.com/140/140/any',
+    //             },
+    //         },
+    //     ])
+    // }, [])
+
+    // const onSend = useCallback((messages = []) => {
+    //     setMessages((previousMessages) =>
+    //         GiftedChat.append(previousMessages, messages)
+    //     )
+    // }, [])
+
+    const handleSend = async (message) => {
+        const text = message[0].text
+        await updateDoc(doc(db, 'chats', data.chatId), {
+            messages: arrayUnion({
+                id: uuid(),
+                text,
+                senderId: currentUser.uid,
+                date: Timestamp.now(),
+            }),
+        })
+
+        await updateDoc(doc(db, 'userChats', currentUser.uid), {
+            [data.chatId + '.lastMessage']: {
+                text,
+            },
+            [data.chatId + '.date']: serverTimestamp(),
+        })
+
+        await updateDoc(doc(db, 'userChats', data.user.id), {
+            [data.chatId + '.lastMessage']: {
+                text,
+            },
+            [data.chatId + '.date']: serverTimestamp(),
+        })
+    }
 
     // change button of send
     const renderSend = (props) => {
@@ -98,7 +141,7 @@ const PersonalChat = ({ navigation }) => {
                     }}
                 >
                     <TouchableOpacity
-                        onPress={() => navigation.navigate('Contacts')}
+                        onPress={() => navigation.navigate('Chats')}
                     >
                         <MaterialIcons
                             name="keyboard-arrow-left"
@@ -106,8 +149,8 @@ const PersonalChat = ({ navigation }) => {
                             color={COLORS.black}
                         />
                     </TouchableOpacity>
-                    <Text style={{ ...FONTS.h4, marginLeft: 8 }}>
-                        Athalia Muri
+                    <Text style={{ ...FONTS.h4, marginLeft: 8, width: 230 }}>
+                        {data.user.clinicName}
                     </Text>
                 </View>
 
@@ -145,10 +188,20 @@ const PersonalChat = ({ navigation }) => {
             </View>
 
             <GiftedChat
-                messages={messages}
-                onSend={(messages) => onSend(messages)}
+                messages={messages
+                    .sort((a, b) => b.date.seconds - a.date.seconds)
+                    .map((msg) => ({
+                        _id: msg.id,
+                        text: msg.text,
+                        createdAt: new Date(msg.date.seconds * 1000),
+                        user: {
+                            _id: msg.senderId,
+                            avatar: 'https://placeimg.com/140/140/any',
+                        },
+                    }))}
+                onSend={(message) => handleSend(message)}
                 user={{
-                    _id: 1,
+                    _id: currentUser.uid,
                 }}
                 renderBubble={renderBubble}
                 alwaysShowSend

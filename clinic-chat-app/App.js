@@ -13,7 +13,8 @@ import {
     Signup,
     Signin,
 } from './screens'
-import { useCallback } from 'react'
+import { useCallback, useContext } from 'react'
+import { AuthContext } from "./context/AuthContext";
 import BottomTabNavigation from './navigation/BottomTabNavigation'
 SplashScreen.preventAutoHideAsync()
 

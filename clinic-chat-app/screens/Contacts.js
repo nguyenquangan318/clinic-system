@@ -6,18 +6,34 @@ import {
     FlatList,
     Image,
 } from 'react-native'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import PageContainer from '../components/PageContainer'
 import { COLORS, FONTS } from '../constants'
 import { AntDesign, Ionicons } from '@expo/vector-icons'
 import { contacts } from '../constants/data'
+import {
+    collection,
+    query,
+    where,
+    getDocs,
+    setDoc,
+    doc,
+    updateDoc,
+    serverTimestamp,
+    getDoc,
+} from 'firebase/firestore'
+import { db } from '../firebase'
+import { AuthContext } from '../context/AuthContext'
 
 const Contacts = ({ navigation }) => {
+    const [username, setUsername] = useState('')
+    const [user, setUser] = useState([])
+    const [err, setErr] = useState(false)
     const [search, setSearch] = useState('')
-    const [filteredUsers, setFilteredUsers] = useState(contacts)
+    const [filteredUsers, setFilteredUsers] = useState([])
 
-    const handleSearch = (text) => {
+    const handleSearch = async (text) => {
         setSearch(text)
         const filteredData = contacts.filter((user) =>
             user.userName.toLowerCase().includes(text.toLowerCase())
@@ -55,23 +71,6 @@ const Contacts = ({ navigation }) => {
                     marginRight: 22,
                 }}
             >
-                {/* {item.isOnline && item.isOnline == true && (
-                    <View
-                        style={{
-                            height: 14,
-                            width: 14,
-                            borderRadius: 7,
-                            backgroundColor: COLORS.green,
-                            borderColor: COLORS.white,
-                            borderWidth: 2,
-                            position: 'absolute',
-                            top: 14,
-                            right: 2,
-                            zIndex: 1000,
-                        }}
-                    ></View>
-                )} */}
-
                 <Image
                     source={require('../assets/images/149071.png')}
                     resizeMode="contain"
@@ -109,7 +108,7 @@ const Contacts = ({ navigation }) => {
                             marginTop: 22,
                         }}
                     >
-                        <Text style={{ ...FONTS.h4 }}>Contacts</Text>
+                        <Text style={{ ...FONTS.h4 }}>Clinics</Text>
                         <TouchableOpacity
                             onPress={() => console.log('Add contacts')}
                         >
