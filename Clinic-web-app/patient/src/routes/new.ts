@@ -1,5 +1,9 @@
 import { body } from "express-validator";
-import { requireAuth, validateRequest } from "@clinicare/common";
+import {
+  requireAuth,
+  validateRequest,
+  BadRequestError,
+} from "@clinicare/common";
 import express, { Request, Response } from "express";
 import { Patient } from "../models/patient";
 import { PatientCreatedPublisher } from "../events/patient-created-publisher";
@@ -33,6 +37,13 @@ router.post(
   validateRequest,
   async (req: Request, res: Response) => {
     const { email, name, age, address, phone, id } = req.body;
+    if (email != "None") {
+      const existingEmail = await Patient.findOne({ email });
+      if (existingEmail) {
+        // console.log("email in use");
+        throw new BadRequestError("Email already in use");
+      }
+    }
     const patient = Patient.build({
       email,
       name,

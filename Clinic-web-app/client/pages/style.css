@@ -140,6 +140,10 @@ td {
   flex: 1;
   background-color: #000ccccc;
   position: relative;
+  overflow: scroll;
+}
+.home .container .sidebar::-webkit-scrollbar {
+  display: none;
 }
 .home .container .sidebar .search {
   border-bottom: 1px solid gray;

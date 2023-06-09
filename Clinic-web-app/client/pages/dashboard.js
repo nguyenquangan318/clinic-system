@@ -16,15 +16,20 @@ function dashboard({ currentUser }) {
       Router.push("/auth/signin");
     }
     const fetchData = async () => {
-      const res = await axios.get("/api/appointment");
-      setAppointment(res.data.appointment);
-      const doctors = await axios.get("/api/doctor?page=1&size=4");
-      setDoctor(doctors.data.doctor);
+      try {
+        const res = await axios.get("/api/appointment?page=1&size=5");
+        setAppointment(res.data.appointment);
+        const doctors = await axios.get("/api/doctor?page=1&size=4");
+        setDoctor(doctors.data.doctor);
+      } catch (err) {
+        console.log(err);
+      }
     };
     fetchData();
     return () => {};
   }, []);
 
+  console.log(currentUser);
   return (
     <div style={{ width: "100%", background: "#f8f9fb" }}>
       <div className="content-wrapper pb-0">
@@ -161,7 +166,7 @@ function dashboard({ currentUser }) {
                             <td>{appointment.patient.name}</td>
                             <td>
                               <img
-                                className="mx-2"  
+                                className="mx-2"
                                 style={{
                                   width: "25px",
                                   height: "25px",

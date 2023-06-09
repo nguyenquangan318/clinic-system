@@ -35,7 +35,6 @@ const Chats = ({ navigation }) => {
 
     const { currentUser } = useContext(AuthContext)
     const { dispatch } = useContext(ChatContext)
-    const { data } = useContext(ChatContext)
 
     useEffect(() => {
         const getChats = () => {
@@ -55,12 +54,14 @@ const Chats = ({ navigation }) => {
     }, [currentUser.uid])
 
     const handleSearch = async (text) => {
-
         let userArr = []
         setSearch(text)
+        if (text == '') {
+            setErr(false)
+        }
         const q = query(
             collection(db, 'users'),
-            where('clinicName', '!=', null)
+            where('role', '==', "admin")
         )
         try {
             const querySnapshot = await getDocs(q)
@@ -85,7 +86,8 @@ const Chats = ({ navigation }) => {
     }
 
     const handleSearchSelect = async (user) => {
-        console.log("hi")
+        setSearch('')
+        setFilteredChats([])
         //check whether the group(chats in firestore) exists, if not create
         const combinedId =
             currentUser.uid > user.id

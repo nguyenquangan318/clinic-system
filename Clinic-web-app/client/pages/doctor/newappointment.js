@@ -1,32 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Router from "next/router";
 import axios from "axios";
 import useRequest from "../../hooks/useRequest";
+import { AuthContext } from "../../context/AuthContext";
 
 function newappointment() {
   const [date, setDate] = useState("");
-  const [doctorId, setDoctorId] = useState("");
-  const [patientId, setPatientId] = useState("");
-  const [appointmentId, setAppointmentId] = useState("");
+  const [patientId, setPatientId] = useState();
   const [dateErr, setDateErr] = useState(false);
-  const updateAppointment =
-    typeof window !== "undefined"
-      ? localStorage.getItem("updateAppointment")
-      : null;
 
-  const [doctor, setDoctor] = useState([]);
   const [patient, setPatient] = useState([]);
+
+  const { currentUser } = useContext(AuthContext);
   useEffect(() => {
-    // Perform localStorage action
-    setDate(JSON.parse(updateAppointment).date);
-    setDoctorId(JSON.parse(updateAppointment).doctor.id);
-    setPatientId(JSON.parse(updateAppointment).patient.id);
-    setAppointmentId(JSON.parse(updateAppointment).id);
-    //get information
     const fetchData = async () => {
-      const doctorList = await axios.get("/api/doctor");
       const patientList = await axios.get("/api/patient");
-      setDoctor(doctorList.data.doctor);
       setPatient(patientList.data.patient);
     };
     fetchData();
@@ -34,12 +22,12 @@ function newappointment() {
   }, []);
 
   const { doRequest, errors } = useRequest({
-    url: `/api/appointment/${appointmentId}`,
-    method: "put",
+    url: "/api/appointment",
+    method: "post",
     body: {
       date,
       patientId,
-      doctorId,
+      doctorId: currentUser.id,
     },
     onSuccess: () => {
       Router.push("/appointment");
@@ -65,13 +53,14 @@ function newappointment() {
           onSubmit={onSubmit}
           style={{ backgroundColor: "white" }}
         >
-          <h1 className="text-center">Cập nhật lịch hẹn</h1>
+          <h1 className="text-center">Thêm lịch hẹn</h1>
           <div className="mb-3 form-group">
             <label className="mb-1">Thời gian</label>
             <input
-              value={date.slice(0, 16)}
+              value={date}
               type="datetime-local"
               onChange={(e) => {
+                console.log(currentUser);
                 const currentDate = new Date();
                 const appointDate = new Date(e.target.value);
                 setDateErr(currentDate > appointDate);
@@ -85,25 +74,6 @@ function newappointment() {
               please provide a valid date
             </div>
           ) : null}
-          <div className="form-group">
-            <label className="mb-1">Bác sĩ</label>
-            <select
-              onChange={(e) => {
-                const selectedIndex = e.target.options.selectedIndex;
-                setDoctorId(
-                  e.target.options[selectedIndex].getAttribute("doctorid")
-                );
-              }}
-              className="mb-3 form-control"
-            >
-              <option>Danh sách bác sĩ</option>
-              {doctor.map((doc) => (
-                <option key={doc.id} doctorid={doc.id}>
-                  {`${doc.name} ${doc.department}`}
-                </option>
-              ))}
-            </select>
-          </div>
           <div className="form-group">
             <label className="mb-1">Khách hàng</label>
             <select
@@ -126,7 +96,7 @@ function newappointment() {
           </div>
           {errors}
           <div className="text-center">
-            <button className="btn btn-primary ">Cập nhật</button>
+            <button className="btn btn-primary ">Thêm</button>
           </div>
         </form>
       </div>

@@ -34,6 +34,7 @@ router.post(
         clinicName: existingUser.clinicName,
         address: existingUser.address,
         phone: existingUser.phone,
+        role: existingUser.role,
       },
       process.env.JWT_KEY!
     );

@@ -2,16 +2,15 @@ import {
     View,
     Text,
     TouchableOpacity,
+    Image,
     TextInput,
     FlatList,
-    Image,
 } from 'react-native'
-import React, { useContext, useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import PageContainer from '../components/PageContainer'
-import { COLORS, FONTS } from '../constants'
-import { AntDesign, Ionicons } from '@expo/vector-icons'
-import { contacts } from '../constants/data'
+import { MaterialCommunityIcons, AntDesign, Ionicons } from '@expo/vector-icons'
+import { FONTS, COLORS } from '../constants'
 import {
     collection,
     query,
@@ -22,33 +21,160 @@ import {
     updateDoc,
     serverTimestamp,
     getDoc,
+    onSnapshot,
 } from 'firebase/firestore'
 import { db } from '../firebase'
 import { AuthContext } from '../context/AuthContext'
+import { ChatContext } from '../context/ChatContext'
 
-const Contacts = ({ navigation }) => {
-    const [username, setUsername] = useState('')
-    const [user, setUser] = useState([])
-    const [err, setErr] = useState(false)
+const Chats = ({ navigation }) => {
     const [search, setSearch] = useState('')
-    const [filteredUsers, setFilteredUsers] = useState([])
+    const [err, setErr] = useState(false)
+    const [chats, setChats] = useState([])
+    const [users, setUsers] = useState([])
+    // const [filteredChats, setFilteredChats] = useState([])
+
+    const { currentUser } = useContext(AuthContext)
+    const { dispatch } = useContext(ChatContext)
+
+    useEffect(() => {
+        const getChats = () => {
+            let users = []
+            const q = query(
+                collection(db, 'users'),
+                where('role', '==', 'admin')
+            )
+            const unsub = onSnapshot(q, (querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    users.push(doc.data())
+                })
+                setChats(users)
+                setUsers(users)
+            })
+            return () => {
+                unsub()
+            }
+        }
+
+        currentUser.uid && getChats()
+    }, [currentUser.uid])
 
     const handleSearch = async (text) => {
+        let userArr = []
         setSearch(text)
-        const filteredData = contacts.filter((user) =>
-            user.userName.toLowerCase().includes(text.toLowerCase())
-        )
-        setFilteredUsers(filteredData)
+        if (text == '') {
+            setErr(false)
+            setChats(users)
+        }
+        const q = query(collection(db, 'users'), where('role', '==', 'admin'))
+        try {
+            const querySnapshot = await getDocs(q)
+            querySnapshot.forEach((doc) => {
+                if (
+                    doc.data().clinicName.includes(text.trim()) &&
+                    text != '' &&
+                    text != ' '
+                ) {
+                    setErr(false)
+                    userArr.push(doc.data())
+                }
+            })
+            if (userArr.length == 0 && text.length != 0) {
+                setErr(true)
+            }
+            const filteredData = userArr
+            if (userArr.length != 0) {
+                setChats(filteredData)
+            }
+        } catch (err) {
+            console.log('err')
+            setErr(true)
+        }
     }
+
+    const handleSearchSelect = async (user) => {
+        setSearch('')
+        setFilteredChats([])
+        //check whether the group(chats in firestore) exists, if not create
+        const combinedId =
+            currentUser.uid > user.id
+                ? currentUser.uid + user.id
+                : user.id + currentUser.uid
+        try {
+            const res = await getDoc(doc(db, 'chats', combinedId))
+            if (!res.exists()) {
+                //create a chat in chats collection
+                await setDoc(doc(db, 'chats', combinedId), { messages: [] })
+
+                //create user chats
+                await updateDoc(doc(db, 'userChats', currentUser.uid), {
+                    [combinedId + '.userInfo']: {
+                        id: user.id,
+                        clinicName: user.clinicName,
+                    },
+                    [combinedId + '.date']: serverTimestamp(),
+                })
+
+                await updateDoc(doc(db, 'userChats', user.id), {
+                    [combinedId + '.userInfo']: {
+                        id: currentUser.uid,
+                        name: currentUser.displayName,
+                    },
+                    [combinedId + '.date']: serverTimestamp(),
+                })
+            }
+        } catch (err) {}
+    }
+
+    const handleSelect = (item) => {
+        dispatch({ type: 'CHANGE_USER', payload: item })
+        navigation.navigate('PersonalChat', {
+            clinicName: item.clinicName,
+        })
+    }
+
+    const renderSearchItem = ({ item, index }) => (
+        <TouchableOpacity
+            key={index}
+            onPress={() => handleSearchSelect(item)}
+            style={[
+                {
+                    width: '100%',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    paddingHorizontal: 22,
+                    borderBottomColor: COLORS.secondaryWhite,
+                    borderBottomWidth: 1,
+                },
+                index % 2 !== 0
+                    ? {
+                          backgroundColor: COLORS.tertiaryWhite,
+                      }
+                    : null,
+            ]}
+        >
+            <View
+                style={{
+                    paddingVertical: 15,
+                    marginRight: 22,
+                }}
+            ></View>
+            <View
+                style={{
+                    flexDirection: 'column',
+                }}
+            >
+                <Text style={{ ...FONTS.h4, marginBottom: 4, height: 40 }}>
+                    {item.clinicName}
+                </Text>
+            </View>
+        </TouchableOpacity>
+    )
 
     const renderItem = ({ item, index }) => (
         <TouchableOpacity
             key={index}
-            onPress={() =>
-                navigation.navigate('PersonalChat', {
-                    userName: item.userName,
-                })
-            }
+            // onPress={() => handleSelect(item[1])}
             style={[
                 {
                     width: '100%',
@@ -87,10 +213,7 @@ const Contacts = ({ navigation }) => {
                 }}
             >
                 <Text style={{ ...FONTS.h4, marginBottom: 4 }}>
-                    {item.userName}
-                </Text>
-                <Text style={{ fontSize: 14, color: COLORS.secondaryGray }}>
-                    {item.lastMessage}
+                    {item.clinicName}
                 </Text>
             </View>
         </TouchableOpacity>
@@ -108,17 +231,32 @@ const Contacts = ({ navigation }) => {
                             marginTop: 22,
                         }}
                     >
-                        <Text style={{ ...FONTS.h4 }}>Clinics</Text>
-                        <TouchableOpacity
-                            onPress={() => console.log('Add contacts')}
-                        >
-                            <AntDesign
-                                name="plus"
-                                size={20}
-                                color={COLORS.secondaryBlack}
-                            />
-                        </TouchableOpacity>
+                        <Text style={{ ...FONTS.h4 }}>Chats</Text>
+                        <View style={{ flexDirection: 'row' }}>
+                            <TouchableOpacity
+                                onPress={() => console.log('Add contacts')}
+                            >
+                                <MaterialCommunityIcons
+                                    name="message-badge-outline"
+                                    size={20}
+                                    color={COLORS.secondaryBlack}
+                                />
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={{
+                                    marginLeft: 12,
+                                }}
+                                onPress={() => console.log('Add contacts')}
+                            >
+                                <MaterialCommunityIcons
+                                    name="playlist-check"
+                                    size={20}
+                                    color={COLORS.secondaryBlack}
+                                />
+                            </TouchableOpacity>
+                        </View>
                     </View>
+
                     <View
                         style={{
                             marginHorizontal: 22,
@@ -154,8 +292,14 @@ const Contacts = ({ navigation }) => {
                             paddingBottom: 100,
                         }}
                     >
+                        {err && <Text>User not found!</Text>}
+                        {/* <FlatList
+                            data={filteredChats}
+                            renderItem={renderSearchItem}
+                            keyExtractor={(item) => item.id.toString()}
+                        /> */}
                         <FlatList
-                            data={filteredUsers}
+                            data={chats}
                             renderItem={renderItem}
                             keyExtractor={(item) => item.id.toString()}
                         />
@@ -166,4 +310,4 @@ const Contacts = ({ navigation }) => {
     )
 }
 
-export default Contacts
+export default Chats

@@ -1,14 +1,19 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import Router from "next/router";
+import { AuthContext } from "../context/AuthContext";
 import { PaginationControl } from "react-bootstrap-pagination-control";
 
 function doctor() {
+  const { currentUser } = useContext(AuthContext);
   const [page, setPage] = useState(1);
   const [doctor, setDoctor] = useState([]);
   useEffect(() => {
+    if (currentUser?.role == "Doctor") {
+      Router.push("/doctor/appointment");
+    }
     const fetchData = async () => {
       const res = await axios.get(`/api/doctor?page=${page}&size=5`);
       setDoctor(res.data.doctor);
@@ -20,23 +25,37 @@ function doctor() {
     <div style={{ width: "100%", background: "#f8f9fb" }}>
       <div className="content-wrapper pb-0">
         <div className="d-flex justify-content-between">
-          <Button
-            variant="primary"
-            className="mb-3"
-            style={{ backgroundColor: "#0033c4" }}
-            onClick={() => Router.push("/doctor/newdoctor")}
-          >
-            + Thêm nhân viên
-          </Button>
+          <div>
+            <Button
+              variant="primary"
+              className="mb-3"
+              style={{ backgroundColor: "#0033c4" }}
+              onClick={() => Router.push("/doctor/newdoctor")}
+            >
+              + Thêm nhân viên
+            </Button>
+            <Button
+              variant="primary"
+              className="mb-3"
+              style={{ backgroundColor: "#0033c4", marginLeft: "20px" }}
+              onClick={() => Router.push("/doctor/newaccount")}
+            >
+              + Thêm tài khoản
+            </Button>
+          </div>
+
           <input
             style={{ width: "40%" }}
             placeholder="Search by Name"
             onChange={async (e) => {
-              const res = await axios.get(
-                `/api/doctor/search?name=${e.target.value}`
-              );
-              console.log(res.data);
-              setDoctor(res.data.doctor);
+              try {
+                const res = await axios.get(
+                  `/api/doctor/search?name=${e.target.value}`
+                );
+                setDoctor(res.data.doctor);
+              } catch (err) {
+                console.log(err);
+              }
             }}
             className="mb-3 form-control"
           ></input>

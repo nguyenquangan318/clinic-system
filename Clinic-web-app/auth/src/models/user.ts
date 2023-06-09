@@ -9,6 +9,7 @@ interface UserAttrs {
   clinicName: string;
   address: String;
   phone: String;
+  role: String;
 }
 
 // An interface that describes the properties
@@ -25,6 +26,7 @@ interface UserDoc extends mongoose.Document {
   clinicName: string;
   address: String;
   phone: String;
+  role: String;
 }
 
 const userSchema = new mongoose.Schema(
@@ -48,6 +50,11 @@ const userSchema = new mongoose.Schema(
     phone: {
       type: String,
       required: true,
+    },
+    role: {
+      type: String,
+      required: true,
+      default: "admin",
     },
   },
   {

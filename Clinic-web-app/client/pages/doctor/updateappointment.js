@@ -13,23 +13,12 @@ function newappointment() {
     typeof window !== "undefined"
       ? localStorage.getItem("updateAppointment")
       : null;
-
-  const [doctor, setDoctor] = useState([]);
-  const [patient, setPatient] = useState([]);
   useEffect(() => {
     // Perform localStorage action
     setDate(JSON.parse(updateAppointment).date);
     setDoctorId(JSON.parse(updateAppointment).doctor.id);
     setPatientId(JSON.parse(updateAppointment).patient.id);
     setAppointmentId(JSON.parse(updateAppointment).id);
-    //get information
-    const fetchData = async () => {
-      const doctorList = await axios.get("/api/doctor");
-      const patientList = await axios.get("/api/patient");
-      setDoctor(doctorList.data.doctor);
-      setPatient(patientList.data.patient);
-    };
-    fetchData();
     return () => {};
   }, []);
 
@@ -85,45 +74,7 @@ function newappointment() {
               please provide a valid date
             </div>
           ) : null}
-          <div className="form-group">
-            <label className="mb-1">Bác sĩ</label>
-            <select
-              onChange={(e) => {
-                const selectedIndex = e.target.options.selectedIndex;
-                setDoctorId(
-                  e.target.options[selectedIndex].getAttribute("doctorid")
-                );
-              }}
-              className="mb-3 form-control"
-            >
-              <option>Danh sách bác sĩ</option>
-              {doctor.map((doc) => (
-                <option key={doc.id} doctorid={doc.id}>
-                  {`${doc.name} ${doc.department}`}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="form-group">
-            <label className="mb-1">Khách hàng</label>
-            <select
-              onChange={(e) => {
-                const selectedIndex = e.target.options.selectedIndex;
-                setPatientId(
-                  e.target.options[selectedIndex].getAttribute("patientid")
-                );
-              }}
-              className="mb-3 form-control"
-            >
-              <option>Danh sách khách hàng</option>
-              {patient.map((patient) => (
-                <option
-                  key={patient.id}
-                  patientid={patient.id}
-                >{`${patient.name} số điện thoại: ${patient.phone}`}</option>
-              ))}
-            </select>
-          </div>
+
           {errors}
           <div className="text-center">
             <button className="btn btn-primary ">Cập nhật</button>

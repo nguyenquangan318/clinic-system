@@ -19,6 +19,7 @@ function signup() {
       clinicName,
       address,
       phone,
+      role: "admin",
     },
     onSuccess: async (data) => {
       console.log(data);
@@ -27,10 +28,11 @@ function signup() {
         clinicName,
         address,
         phone,
-        id: data.id
+        role: "admin",
+        id: data.id,
       });
       await setDoc(doc(db, "userChats", data.id), {});
-      Router.push("/dashboard");
+      Router.push("/");
     },
   });
   const onSubmit = async (event) => {
@@ -63,6 +65,7 @@ function signup() {
             <label className="mb-1">Mật khẩu</label>
             <input
               value={password}
+              type="password"
               onChange={(e) => {
                 setPassword(e.target.value);
               }}

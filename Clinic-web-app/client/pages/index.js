@@ -20,8 +20,12 @@ const LandingPage = ({ currentUser }) => {
       email,
       password,
     },
-    onSuccess: () => {
-      Router.push("/dashboard");
+    onSuccess: (data) => {
+      if (data.role == "Doctor") {
+        Router.push("/doctor/appointment");
+      } else {
+        Router.push("/dashboard");
+      }
     },
   });
 

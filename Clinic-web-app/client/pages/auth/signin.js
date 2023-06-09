@@ -20,8 +20,12 @@ function signin({ currentUser }) {
       email,
       password,
     },
-    onSuccess: () => {
-      Router.push("/dashboard");
+    onSuccess: (data) => {
+      if (data.role == "Doctor") {
+        Router.push("/doctor/appointment");
+      } else {
+        Router.push("/dashboard");
+      }
     },
   });
 
@@ -40,7 +44,7 @@ function signin({ currentUser }) {
           onSubmit={onSubmit}
           style={{ backgroundColor: "white" }}
         >
-          <h1 className="text-center">signin</h1>
+          <h1 className="text-center">Đăng nhập</h1>
           <div className="mb-3 form-group">
             <label className="mb-1">Email</label>
             <input

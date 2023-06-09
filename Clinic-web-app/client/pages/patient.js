@@ -1,21 +1,29 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import Router from "next/router";
+import { AuthContext } from "../context/AuthContext";
 import { PaginationControl } from "react-bootstrap-pagination-control";
 
 function patient() {
+  const { currentUser } = useContext(AuthContext);
+  const [value, setValue] = useState(0);
   const [page, setPage] = useState(1);
   const [patient, setPatient] = useState([]);
+
   useEffect(() => {
+    if (currentUser?.role == "Doctor") {
+      Router.push("/doctor/appointment");
+    }
     const fetchData = async () => {
-      const res = await axios.get(`/api/patient?page=${page}&size=5`);
+      const res = await axios.get(`/api/patient?page=${page}&size=9`);
       setPatient(res.data.patient);
     };
     fetchData();
     return () => {};
-  }, [page]);
+  }, [page, value]);
+
   return (
     <div style={{ width: "100%", background: "#f8f9fb" }}>
       <div className="content-wrapper pb-0">
@@ -91,7 +99,7 @@ function patient() {
                         onClick={() => {
                           if (confirm("Deleted patient") == true) {
                             axios.delete(`/api/patient/${patient.id}`);
-                            window.location.reload();
+                            setValue((value) => value + 1);
                           } else {
                           }
                         }}

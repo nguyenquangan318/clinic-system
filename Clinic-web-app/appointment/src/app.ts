@@ -9,6 +9,7 @@ import { indexAppointmentRouter } from "./routes";
 import { updateAppointmentRouter } from "./routes/update";
 import { deleteAppointmentRouter } from "./routes/delete";
 import path from "path";
+import { doctorAppointmentRouter } from "./routes/doctorAppointment";
 
 const app = express();
 app.set("trust proxy", true);
@@ -22,6 +23,7 @@ app.use(
 );
 
 app.use(currentUser);
+app.use(doctorAppointmentRouter);
 app.use(createAppointmentRouter);
 app.use(showAppointmentRouter);
 app.use(indexAppointmentRouter);

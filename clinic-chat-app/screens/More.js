@@ -23,7 +23,6 @@ const More = () => {
             const docSnap = await getDoc(docRef)
 
             if (docSnap.exists()) {
-                console.log(docSnap.data())
                 setUser(docSnap.data())
             } else {
                 // docSnap.data() will be undefined in this case

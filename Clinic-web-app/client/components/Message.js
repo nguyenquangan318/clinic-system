@@ -22,7 +22,7 @@ const Message = ({ message, sec }) => {
           src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
           alt=""
         />
-        {currDate - sec <= 500 && <span>just now</span>}
+        {currDate - sec <= 60 && <span>just now</span>}
       </div>
       <div className="messageContent">
         <p>{message.text}</p>

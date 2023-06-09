@@ -53,6 +53,13 @@ router.post(
     //   throw new BadRequestError("Bad request");
     // }
     const { name, phone, department, avatar } = req.body;
+
+    const existingPhone = await Doctor.findOne({ phone });
+    if (existingPhone) {
+      // console.log("email in use");
+      throw new BadRequestError("Phone number already in use");
+    }
+
     const doctor = Doctor.build({
       name,
       phone,

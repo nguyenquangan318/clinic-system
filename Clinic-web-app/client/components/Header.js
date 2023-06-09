@@ -21,6 +21,58 @@ const Header = ({ currentUser }) => {
         </div>
       );
     });
+
+  function ConditionHeader() {
+    if (currentUser) {
+      if (currentUser.role == "admin") {
+        return (
+          <ul className="navbar-nav">
+            <li className="nav-item active">
+              <Link className="nav-link text-white" href="/dashboard">
+                Dashboard <span className="sr-only"></span>
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link text-white" href="/doctor">
+                Nhân viên
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link text-white" href="/patient">
+                Khách hàng
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link text-white" href="/appointment">
+                Lịch hẹn
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link text-white" href="/chat">
+                Nhắn tin
+              </Link>
+            </li>
+          </ul>
+        );
+      }
+      if (currentUser.role == "Doctor") {
+        return (
+          <ul className="navbar-nav">
+            <li className="nav-item">
+              <Link className="nav-link text-white" href="/doctor/appointment">
+                Lịch hẹn
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link text-white" href="/chat">
+                Nhắn tin
+              </Link>
+            </li>
+          </ul>
+        );
+      }
+    }
+  }
   return (
     <div>
       <nav
@@ -36,35 +88,7 @@ const Header = ({ currentUser }) => {
           CliniCare
         </Link>
         <div className="collapse navbar-collapse" id="navbarNav">
-          {currentUser ? (
-            <ul className="navbar-nav">
-              <li className="nav-item active">
-                <Link className="nav-link text-white" href="/dashboard">
-                  Dashboard <span className="sr-only"></span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link text-white" href="/doctor">
-                  Nhân viên
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link text-white" href="/patient">
-                  Khách hàng
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link text-white" href="/appointment">
-                  Lịch hẹn
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link text-white" href="/chat">
-                  Nhắn tin
-                </Link>
-              </li>
-            </ul>
-          ) : null}
+          <ConditionHeader />
         </div>
         <div className="d-flex justify-content-end">
           <ul className=" nav d-flex justify-item-center"></ul>

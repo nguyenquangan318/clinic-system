@@ -19,15 +19,14 @@ const Chat = () => {
           const { name, email, age, address, phone, id } = doc.data();
           axios
             .post("/api/patient", {
-              id: id,
               name,
               email,
               age,
               address,
               phone,
             })
-            .then((res) => console.log(res))
-            .catch((err) => window.alert("Khách hàng đã tồn tại"));
+            .then((res) => window.alert("Thêm khách hàng thành công"))
+            .catch((err) => window.alert("Thông tin không hợp lệ"));
         });
       } catch (err) {
         console.log(err);

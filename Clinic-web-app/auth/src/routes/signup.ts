@@ -2,7 +2,7 @@ import { validateRequest, BadRequestError } from "@clinicare/common";
 import express from "express";
 import { body } from "express-validator";
 import { User } from "../models/user";
-import jwt from "jsonwebtoken";
+// import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
@@ -31,7 +31,7 @@ router.post(
   ],
   validateRequest,
   async (req: express.Request, res: express.Response) => {
-    const { email, password, clinicName, address, phone } = req.body;
+    const { email, password, clinicName, address, phone, role, id } = req.body;
 
     const existingEmail = await User.findOne({ email });
     const existingClinicName = await User.findOne({ clinicName });
@@ -43,33 +43,55 @@ router.post(
     }
     if (existingClinicName) {
       // console.log("email in use");
-      throw new BadRequestError("Clinic name already in use");
+      throw new BadRequestError("Name already in use");
     }
     if (existingPhone) {
       // console.log("email in use");
       throw new BadRequestError("Phone number already in use");
     }
 
-    const user = User.build({ email, password, clinicName, address, phone });
-    await user.save();
+    if (id) {
+      const user = User.build({
+        email,
+        password,
+        clinicName,
+        address,
+        phone,
+        role,
+      });
+      user._id = id;
+      await user.save();
+      res.status(201).send(user);
+    } else {
+      const user = User.build({
+        email,
+        password,
+        clinicName,
+        address,
+        phone,
+        role,
+      });
+      await user.save();
+      res.status(201).send(user);
+    }
 
     //gen jsonwebtoken
-    const userJwt = jwt.sign(
-      {
-        id: user.id,
-        email: user.email,
-        clinicName: user.clinicName,
-        address: user.address,
-        phone: user.phone,
-      },
-      process.env.JWT_KEY!
-    );
+    // const userJwt = jwt.sign(
+    //   {
+    //     id: user.id,
+    //     email: user.email,
+    //     clinicName: user.clinicName,
+    //     address: user.address,
+    //     phone: user.phone,
+    //     role: user.role,
+    //   },
+    //   process.env.JWT_KEY!
+    // );
 
     //save jwt to session obj
-    req.session = {
-      jwt: userJwt,
-    };
-    res.status(201).send(user);
+    // req.session = {
+    //   jwt: userJwt,
+    // };
   }
 );
 export { router as signupRouter };

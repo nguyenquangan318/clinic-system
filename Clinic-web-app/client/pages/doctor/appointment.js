@@ -1,23 +1,18 @@
 import axios from "axios";
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import Router from "next/router";
-import { AuthContext } from "../context/AuthContext";
 import { PaginationControl } from "react-bootstrap-pagination-control";
 
 function appointment() {
-  const { currentUser } = useContext(AuthContext);
   const [page, setPage] = useState(1);
   const [appointment, setAppointment] = useState([]);
 
   useEffect(() => {
-    if (currentUser?.role == "Doctor") {
-      Router.push("/doctor/appointment");
-    }
     const fetchData = async () => {
       const appointments = await axios.get(
-        `/api/appointment?page=${page}&size=5`
+        `/api/appointment/doctorAppointment?page=${page}&size=5`
       );
       setAppointment(appointments.data.appointment);
     };
@@ -28,14 +23,6 @@ function appointment() {
   return (
     <div style={{ width: "100%", background: "#f8f9fb" }}>
       <div className="content-wrapper pb-0">
-        <Button
-          variant="primary"
-          className="mb-3"
-          style={{ backgroundColor: "#0033c4" }}
-          onClick={() => Router.push("/appointment/newappointment")}
-        >
-          + Thêm lịch hẹn
-        </Button>
         <Table bordered hover style={{ background: "white" }}>
           <thead>
             <tr>
@@ -89,12 +76,12 @@ function appointment() {
                             "updateAppointment",
                             JSON.stringify(appointment)
                           );
-                          Router.push("/appointment/updateappointment");
+                          Router.push("/doctor/updateappointment");
                         }}
                       >
                         Cập nhật
                       </Button>
-                      <Button
+                      {/* <Button
                         variant="danger"
                         onClick={() => {
                           if (confirm("Deleted appointment") == true) {
@@ -105,7 +92,7 @@ function appointment() {
                         }}
                       >
                         Xóa
-                      </Button>
+                      </Button> */}
                     </div>
                   </td>
                 </tr>

@@ -196,7 +196,7 @@ const PersonalChat = ({ navigation }) => {
                         createdAt: new Date(msg.date.seconds * 1000),
                         user: {
                             _id: msg.senderId,
-                            avatar: 'https://placeimg.com/140/140/any',
+                            avatar: 'https://cdn-icons-png.flaticon.com/512/149/149071.png',
                         },
                     }))}
                 onSend={(message) => handleSend(message)}
