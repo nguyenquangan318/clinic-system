@@ -143,7 +143,7 @@ function dashboard({ currentUser }) {
             <div className="card">
               <div className="card-body">
                 <div className="d-lg-flex justify-content-between">
-                  <h4 className="card-title">Lịch hẹn gần nhất </h4>
+                  <h4 className="card-title">Danh sách lịch hẹn </h4>
                 </div>
                 <div className="table-responsive custom-datatable">
                   <table

@@ -11,7 +11,7 @@ function doctor() {
   const [page, setPage] = useState(1);
   const [doctor, setDoctor] = useState([]);
   useEffect(() => {
-    if (currentUser?.role == "Doctor") {
+    if (currentUser?.role == "doctor") {
       Router.push("/doctor/appointment");
     }
     const fetchData = async () => {

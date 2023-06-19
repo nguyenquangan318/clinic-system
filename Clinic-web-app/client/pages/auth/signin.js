@@ -21,7 +21,7 @@ function signin({ currentUser }) {
       password,
     },
     onSuccess: (data) => {
-      if (data.role == "Doctor") {
+      if (data.role == "doctor") {
         Router.push("/doctor/appointment");
       } else {
         Router.push("/dashboard");

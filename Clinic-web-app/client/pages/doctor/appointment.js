@@ -23,6 +23,7 @@ function appointment() {
   return (
     <div style={{ width: "100%", background: "#f8f9fb" }}>
       <div className="content-wrapper pb-0">
+        <h3>Danh sách lịch hẹn</h3>
         <Table bordered hover style={{ background: "white" }}>
           <thead>
             <tr>

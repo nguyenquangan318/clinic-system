@@ -106,9 +106,8 @@ function newaccount() {
               }}
               className="mb-3 form-control"
             >
-              <option>Roles</option>
-              <option>Admin</option>
-              <option>Doctor</option>
+              <option>doctor</option>
+              <option>admin</option>
             </select>
           </div>
           <div className="mb-3 form-group">

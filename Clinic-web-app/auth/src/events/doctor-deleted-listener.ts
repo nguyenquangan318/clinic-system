@@ -4,7 +4,7 @@ import { User } from "../models/user";
 
 export class DoctorDeletedListener extends Listener<DoctorDeletedEvent> {
   readonly subject = Subjects.DoctorDeleted;
-  queueGroupName = "appoinment-service";
+  queueGroupName = "doctor-service";
 
   async onMessage(data: DoctorDeletedEvent["data"], msg: Message) {
     const { id } = data;

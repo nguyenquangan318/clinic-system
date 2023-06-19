@@ -55,7 +55,7 @@ const Header = ({ currentUser }) => {
           </ul>
         );
       }
-      if (currentUser.role == "Doctor") {
+      if (currentUser.role == "doctor") {
         return (
           <ul className="navbar-nav">
             <li className="nav-item">
